@@ -46,7 +46,7 @@
     "@qonjs/darwin-arm64": "latest"
   },
   "devDependencies": {
-    "@types/node": "^22.15.0",
+    "@types/node": "^25.5.2",
     "rimraf": "^6.0.1",
     "tsup": "^8.4.0",
     "typescript": "^5.8.3",

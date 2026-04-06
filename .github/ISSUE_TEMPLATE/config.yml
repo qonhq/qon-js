@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security report
+    url: https://github.com/qonhq/qon-js/security/advisories/new
+    about: Report vulnerabilities privately via GitHub Security Advisories.
+  - name: Questions and discussions
+    url: https://github.com/qonhq/qon-js/discussions
+    about: Ask usage questions and share ideas in Discussions.

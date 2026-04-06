@@ -1,0 +1,55 @@
+{
+  "name": "qon",
+  "version": "0.1.0",
+  "description": "Official JavaScript/TypeScript client for the Qon networking engine",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qonhq/qon-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/qonhq/qon-js/issues"
+  },
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "pnpm run clean && tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "optionalDependencies": {
+    "@qonjs/win32-x64": "latest",
+    "@qonjs/win32-arm64": "latest",
+    "@qonjs/win32-ia32": "latest",
+    "@qonjs/linux-x64": "latest",
+    "@qonjs/linux-arm64": "latest",
+    "@qonjs/linux-arm": "latest",
+    "@qonjs/darwin-x64": "latest",
+    "@qonjs/darwin-arm64": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "rimraf": "^6.0.1",
+    "tsup": "^8.4.0",
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.2"
+  }
+}

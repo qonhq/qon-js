@@ -360,7 +360,7 @@ class PersistentBridge {
       const size = buf.readUInt32BE(0)
       if (size > MAX_FRAME_SIZE) {
         this.failBridge(
-          new QonError(QON_ERROR_CODE.BRIDGE_PROTOCOL_ERROR, "Bridge frame exceeds maximum allowed size.", {
+          new QonError(QON_ERROR_CODE.BRIDGE_PROTOCOL_ERROR, "Bridge frame exceeds maximum allowed size; the bridge output may be corrupted.", {
             details: { size, maxFrameSize: MAX_FRAME_SIZE, stderr: this.stderrBuffer.trim() }
           })
         )
@@ -379,7 +379,7 @@ class PersistentBridge {
       const pending = this.pending.shift()
       if (!pending) {
         this.failBridge(
-          new QonError(QON_ERROR_CODE.BRIDGE_PROTOCOL_ERROR, "Bridge sent an unsolicited response frame.", {
+          new QonError(QON_ERROR_CODE.BRIDGE_PROTOCOL_ERROR, "Bridge sent a response without a corresponding request; stdout may be desynchronized.", {
             details: { stderr: this.stderrBuffer.trim() }
           })
         )

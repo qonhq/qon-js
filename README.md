@@ -2,14 +2,15 @@
 
 Official JavaScript and TypeScript client for the Qon core networking engine.
 
-The package provides a type-safe API while delegating network execution to the native Qon binary over a JSON stdin/stdout bridge.
+The package provides a type-safe API while delegating network execution to the native Qon binary over a binary framed stdin/stdout bridge.
 
 ## Features
 
 - Type-safe request API
 - String methods and method constants
 - Runtime binary resolution by platform and architecture
-- JSON bridge transport over stdin/stdout
+- Binary framed bridge transport over stdin/stdout
+- Persistent bridge process for high-throughput request workloads
 - Structured bridge and runtime errors
 - Support for headers, query params, priority, trace IDs, and access keys
 
@@ -106,14 +107,16 @@ Supported config keys:
 
 ## Bridge Protocol
 
+The client maintains one persistent bridge process per resolved binary path and sends framed binary request/response messages.
+
 For each request the client:
 
-1. Spawns the Qon core binary in bridge mode
-2. Writes one JSON request line to stdin
-3. Reads one JSON response line from stdout
-4. Parses and returns the response
+1. Encodes the request into the binary bridge payload format
+2. Writes one length-prefixed frame to bridge stdin
+3. Reads one length-prefixed frame from bridge stdout
+4. Decodes and returns the response
 
-Bridge payload fields are aligned with the current Qon core bridge implementation.
+Bridge payload fields are aligned with the current Qon core binary bridge implementation.
 
 ## Error Handling
 

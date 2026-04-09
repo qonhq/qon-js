@@ -23,6 +23,31 @@ importers:
       vitest:
         specifier: ^4.1.2
         version: 4.1.2(@types/node@25.5.2)(vite@7.3.2(@types/node@25.5.2))
+    optionalDependencies:
+      '@qonjs/darwin-arm64':
+        specifier: latest
+        version: 0.1.0
+      '@qonjs/darwin-x64':
+        specifier: latest
+        version: 0.1.0
+      '@qonjs/linux-arm':
+        specifier: latest
+        version: 0.1.0
+      '@qonjs/linux-arm64':
+        specifier: latest
+        version: 0.1.0
+      '@qonjs/linux-x64':
+        specifier: latest
+        version: 0.1.0
+      '@qonjs/win32-arm64':
+        specifier: latest
+        version: 0.1.0
+      '@qonjs/win32-ia32':
+        specifier: latest
+        version: 0.1.0
+      '@qonjs/win32-x64':
+        specifier: latest
+        version: 0.1.0
 
 packages:
 
@@ -194,6 +219,54 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
+
+  '@qonjs/darwin-arm64@0.1.0':
+    resolution: {integrity: sha512-LzzJCqkuRB6M/hCsXZLnJoT01IOdc6Hqw2dtTBkzbNFCKaGAhilM55c+LH5ix+Uy7A9XSv+5TKYXKj7RWdsmsw==}
+    cpu: [arm64]
+    os: [darwin]
+    hasBin: true
+
+  '@qonjs/darwin-x64@0.1.0':
+    resolution: {integrity: sha512-dvgcZisYzY5/bip8EODtqo/7zMwhAUSoV4tWMaS2JrsiXjmsGcIberynSpdIPnyUtKT1B+cfuZtCNU3oHt1q6w==}
+    cpu: [x64]
+    os: [darwin]
+    hasBin: true
+
+  '@qonjs/linux-arm64@0.1.0':
+    resolution: {integrity: sha512-m/jwPMrUEZopyvPojvTtWPdnUZ5jBL82ZtN4wlLAoWvTQebdFNDmpIauqaeHVTBPBv82ZxN03LFG2yAN/P80Lg==}
+    cpu: [arm64]
+    os: [linux]
+    hasBin: true
+
+  '@qonjs/linux-arm@0.1.0':
+    resolution: {integrity: sha512-bHqfewYyPn1GJFlF+5mtbzH1Tdt77ynTfBZgPYH4jRwMmscuNI0iwP/Z86ob9UBaGSmEoHSlPXNmkIzTdzX5Ow==}
+    cpu: [arm]
+    os: [linux]
+    hasBin: true
+
+  '@qonjs/linux-x64@0.1.0':
+    resolution: {integrity: sha512-UWd2fdfA/sT4FzdVcV6x2+9fD7i0tBmAFV7cklNsfmSzjFmsT5gSjxaHxCdEbQfUHTVqb4V2Mxp63jQuJWjHBw==}
+    cpu: [x64]
+    os: [linux]
+    hasBin: true
+
+  '@qonjs/win32-arm64@0.1.0':
+    resolution: {integrity: sha512-nOFmIP/72Bx7DiVX3k3SfBwsG1eXbCUP9DeAIxdRxE8Q3WV0LycR0c6mGfpsz3r/aAitg2+w4oUTuk7LDmvvwA==}
+    cpu: [arm64]
+    os: [win32]
+    hasBin: true
+
+  '@qonjs/win32-ia32@0.1.0':
+    resolution: {integrity: sha512-4cmdwAC+rt05fxKKp0LBYqH6vDIwGVh5ULoTY7ltdBvQn/+V0FNfInImeFSrbtZdjZfvavtOndYxcvgWGiN6PQ==}
+    cpu: [ia32]
+    os: [win32]
+    hasBin: true
+
+  '@qonjs/win32-x64@0.1.0':
+    resolution: {integrity: sha512-GB6QWmWdXmyovocugt2nooyVWOVlNywomkzakihhXS3y/FXOPVBjn+NU8Y/r4FNB2MK6fAJ5uD3Z15wOprpYCw==}
+    cpu: [x64]
+    os: [win32]
+    hasBin: true
 
   '@rollup/rollup-android-arm-eabi@4.60.1':
     resolution: {integrity: sha512-d6FinEBLdIiK+1uACUttJKfgZREXrF0Qc2SmLII7W2AD8FfiZ9Wjd+rD/iRuf5s5dWrr1GgwXCvPqOuDquOowA==}
@@ -846,6 +919,30 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
+
+  '@qonjs/darwin-arm64@0.1.0':
+    optional: true
+
+  '@qonjs/darwin-x64@0.1.0':
+    optional: true
+
+  '@qonjs/linux-arm64@0.1.0':
+    optional: true
+
+  '@qonjs/linux-arm@0.1.0':
+    optional: true
+
+  '@qonjs/linux-x64@0.1.0':
+    optional: true
+
+  '@qonjs/win32-arm64@0.1.0':
+    optional: true
+
+  '@qonjs/win32-ia32@0.1.0':
+    optional: true
+
+  '@qonjs/win32-x64@0.1.0':
+    optional: true
 
   '@rollup/rollup-android-arm-eabi@4.60.1':
     optional: true

@@ -231,7 +231,8 @@ function decodeResponse(payload: Buffer): BridgeResponse {
 class PersistentBridge {
   private readonly child: ChildProcessWithoutNullStreams
   private readonly pending: PendingRequest[] = []
-  private stdoutBuffer = Buffer.alloc(0)
+  private stdoutChunks: Buffer[] = []
+  private stdoutLength = 0
   private stderrBuffer = ""
   private closed = false
 
@@ -242,7 +243,8 @@ class PersistentBridge {
     })
 
     this.child.stdout.on("data", (chunk: Buffer) => {
-      this.stdoutBuffer = Buffer.concat([this.stdoutBuffer, chunk])
+      this.stdoutChunks.push(chunk)
+      this.stdoutLength += chunk.length
       this.drainFrames()
     })
 
@@ -345,14 +347,22 @@ class PersistentBridge {
   }
 
   private drainFrames(): void {
-    while (this.stdoutBuffer.length >= 4) {
-      const size = this.stdoutBuffer.readUInt32BE(0)
-      if (this.stdoutBuffer.length < 4 + size) {
+    while (this.stdoutLength >= 4) {
+      if (this.stdoutChunks.length > 1) {
+        const merged = Buffer.concat(this.stdoutChunks)
+        this.stdoutChunks = [merged]
+      }
+      const buf = this.stdoutChunks[0]!
+      const size = buf.readUInt32BE(0)
+      if (this.stdoutLength < 4 + size) {
         return
       }
 
-      const payload = this.stdoutBuffer.subarray(4, 4 + size)
-      this.stdoutBuffer = this.stdoutBuffer.subarray(4 + size)
+      const payload = buf.subarray(4, 4 + size)
+      const consumed = 4 + size
+      const remaining = buf.subarray(consumed)
+      this.stdoutChunks = remaining.length > 0 ? [remaining] : []
+      this.stdoutLength = remaining.length
 
       const pending = this.pending.shift()
       if (!pending) {

@@ -154,7 +154,7 @@ export async function request(options: RequestOptions): Promise<Response> {
     bridgeRequest.access_key = accessKey
   }
   if (bodyBuffer.length > 0) {
-    bridgeRequest.body_base64 = bodyBuffer.toString("base64")
+    bridgeRequest.body = bodyBuffer
   }
 
   const bridgeOptions: { binaryPath: string; signal?: AbortSignal } = {
@@ -176,9 +176,7 @@ export async function request(options: RequestOptions): Promise<Response> {
     )
   }
 
-  const payloadBuffer = wireResponse.body_base64
-    ? Buffer.from(wireResponse.body_base64, "base64")
-    : Buffer.alloc(0)
+  const payloadBuffer = wireResponse.body ? Buffer.from(wireResponse.body) : Buffer.alloc(0)
 
   const body = shouldDecodeAsText(wireResponse.headers?.["Content-Type"] ?? wireResponse.headers?.["content-type"], parseAs)
     ? payloadBuffer.toString("utf8")

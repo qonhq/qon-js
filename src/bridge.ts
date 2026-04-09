@@ -5,6 +5,7 @@ import { QON_ERROR_CODE, QonError } from "./errors"
 const PROTOCOL_VERSION = 1
 const MSG_KIND_REQUEST = 1
 const MSG_KIND_RESPONSE = 2
+const MAX_FRAME_SIZE = 64 * 1024 * 1024 // 64 MiB
 
 export type BridgeRequest = {
   method: string
@@ -257,7 +258,7 @@ class PersistentBridge {
     })
 
     this.child.on("error", (err) => {
-      this.failAll(
+      this.failBridge(
         new QonError(QON_ERROR_CODE.BRIDGE_SPAWN_FAILED, "Failed to spawn Qon core binary.", {
           cause: err,
           details: { binaryPath }
@@ -357,6 +358,14 @@ class PersistentBridge {
         break
       }
       const size = buf.readUInt32BE(0)
+      if (size > MAX_FRAME_SIZE) {
+        this.failBridge(
+          new QonError(QON_ERROR_CODE.BRIDGE_PROTOCOL_ERROR, "Bridge frame exceeds maximum allowed size.", {
+            details: { size, maxFrameSize: MAX_FRAME_SIZE, stderr: this.stderrBuffer.trim() }
+          })
+        )
+        return
+      }
       if (this.stdoutLength < 4 + size) {
         return
       }
@@ -369,7 +378,12 @@ class PersistentBridge {
 
       const pending = this.pending.shift()
       if (!pending) {
-        continue
+        this.failBridge(
+          new QonError(QON_ERROR_CODE.BRIDGE_PROTOCOL_ERROR, "Bridge sent an unsolicited response frame.", {
+            details: { stderr: this.stderrBuffer.trim() }
+          })
+        )
+        return
       }
 
       this.cleanupPending(pending)
@@ -391,6 +405,20 @@ class PersistentBridge {
         pending.resolve(decoded)
       }
     }
+  }
+
+  private failBridge(err: QonError): void {
+    if (this.closed) {
+      return
+    }
+    this.closed = true
+    bridges.delete(this.binaryPath)
+    try {
+      this.child.kill()
+    } catch {
+      // ignore errors killing a process that may not have fully started
+    }
+    this.failAll(err)
   }
 
   private failAll(err: QonError): void {

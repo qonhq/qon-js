@@ -352,7 +352,10 @@ class PersistentBridge {
         const merged = Buffer.concat(this.stdoutChunks)
         this.stdoutChunks = [merged]
       }
-      const buf = this.stdoutChunks[0]!
+      const buf = this.stdoutChunks[0]
+      if (!buf) {
+        break
+      }
       const size = buf.readUInt32BE(0)
       if (this.stdoutLength < 4 + size) {
         return

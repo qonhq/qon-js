@@ -42,7 +42,7 @@ function resolveCandidate(pathLike: string): string | null {
 
 function resolveFromPackage(pkgName: string): string | null {
   const exe = process.platform === "win32" ? "qon.exe" : "qon"
-  return resolveCandidate(`${pkgName}/${exe}`)
+  return resolveCandidate(`${pkgName}/bin/${exe}`)
 }
 
 export function resolveBinaryPath(explicitPath?: string): string {
